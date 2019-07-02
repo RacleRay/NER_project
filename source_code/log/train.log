@@ -1,0 +1,19 @@
+2019-07-02 00:13:41,923 - log\train.log - INFO - model_type     :	idcnn
+2019-07-02 00:13:41,929 - log\train.log - INFO - num_chars      :	2677
+2019-07-02 00:13:41,930 - log\train.log - INFO - char_dim       :	100
+2019-07-02 00:13:41,931 - log\train.log - INFO - num_tags       :	51
+2019-07-02 00:13:41,932 - log\train.log - INFO - seg_dim        :	20
+2019-07-02 00:13:41,933 - log\train.log - INFO - lstm_dim       :	100
+2019-07-02 00:13:41,935 - log\train.log - INFO - batch_size     :	60.0
+2019-07-02 00:13:41,936 - log\train.log - INFO - emb_file       :	D:\jupyter_code\NLP\NLP_天善智能\命名实体识别项目\NER_local\code\data\vec.txt
+2019-07-02 00:13:41,938 - log\train.log - INFO - clip           :	5.0
+2019-07-02 00:13:41,939 - log\train.log - INFO - dropout_keep   :	0.5
+2019-07-02 00:13:41,942 - log\train.log - INFO - optimizer      :	adam
+2019-07-02 00:13:41,943 - log\train.log - INFO - lr             :	0.001
+2019-07-02 00:13:41,944 - log\train.log - INFO - tag_schema     :	iobes
+2019-07-02 00:13:41,945 - log\train.log - INFO - pre_emb        :	True
+2019-07-02 00:13:41,945 - log\train.log - INFO - zeros          :	True
+2019-07-02 00:13:41,946 - log\train.log - INFO - lower          :	False
+2019-07-02 00:22:38,122 - log\train.log - INFO - Created model with fresh parameters.
+2019-07-02 00:23:45,306 - log\train.log - INFO - Load pre-trained embedding.
+2019-07-02 00:23:54,043 - log\train.log - INFO - start training
