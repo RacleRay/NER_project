@@ -6,7 +6,7 @@ Electronic medical record NER project using idCNN + CRF.
 ---
 ## idCNN
 使用bi-LSTM的问题在于训练速度较慢，并且对于本项目的局部实体识别问题，idCNN对局部实体的卷积编码比bi-LSTM的长距离依赖关系编码
-相对而言达到更好的实体识别效果，同时提升了训练推理的效率。详见[dilated convolutions_notes.ipynb](./notes/dilated convolutions_notes.ipynb)。
+相对而言达到更好的实体识别效果，同时提升了训练推理的效率。详见[dilated convolutions_notes.ipynb](./notes/dilated_convolutions_notes.ipynb)。
 
 ---
 ## CRF
