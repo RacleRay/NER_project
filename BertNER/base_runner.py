@@ -139,6 +139,9 @@ class BaseRunner:
         if args:
             self.args.update(args)
 
+        self.args["model_file"] = model_file
+        self.args["model_type"] = model_type
+
         self.labels = get_labels(label_format_path)
         self.num_labels = len(self.labels)
         self.idx2tag = {i: tag for i, tag in enumerate(self.labels)}
@@ -193,9 +196,6 @@ class BaseRunner:
 
         # pad token of label seq
         self.pad_token_label_id = CrossEntropyLoss().ignore_index  # -100
-
-        self.args["model_file"] = model_file
-        self.args["model_type"] = model_type
 
     def train_model(
             self,
