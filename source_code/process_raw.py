@@ -1,5 +1,14 @@
-#encoding=utf8
+#!/usr/bin/env python
+# -*- encoding: utf-8 -*-
+'''
+@File    :   process_raw.py
+@Author  :   Racle
+@Version :   1.0
+@Desc    :   None
+'''
+
 import os, jieba, csv
+import time
 import jieba.posseg as pseg
 
 # os.sep：根据系统自适应path分隔符
@@ -20,18 +29,36 @@ biaoji = set([
 # 标点符号集合：作为一个序列的结尾
 fuhao = set(['。', '?', '？', '!', '！'])
 
-# 读取识别对象字典：可来自爬虫、公司数据库等
+# 数据说明：
+#     ***orginal.txt
+#   		原始纯文本文件（也就是NER的输入文件）
+#     ***.txt
+#   		对应同名原始文件的标注结果，分四个域
+#   			entity mention: 识别出的实体名称
+#   			pos_b: entity mention在文件中的起始位置（从0开始编号）
+#   			pos_e: entity mention在文件中的终止位置
+#   			category：entity所属的类别
+#     DICT_NOW.csv:
+#           所有标记对应的语言组成的dictionary
+#           这一部分只需要将***.txt中的entity mention和entity category进行对应输出即可
+#           得到DICT_NOW.csv文件。（实际中可以在医药网站或者医学百科中爬取一些医学类entity）
 dics = csv.reader(open("./source_data/DICT_NOW.csv", 'r', encoding='utf8'))
 
+
+# =======================================================================================
+# 利用jieba自定义分词，进行专有名词输入
 # 将识别对象加入jieba识别词表，标记视为词性
 for row in dics:
     if len(row) == 2:
-        jieba.add_word(row[0].strip(), tag=row[1].strip()) 
+        jieba.add_word(row[0].strip(), tag=row[1].strip())
         # 强制加入词为一个joined整体
         jieba.suggest_freq(row[0].strip())
 
+# =======================================================================================
 # 读取目标文件，进行IOB格式的标记，并写入dev、train、test文件
 split_num = 0
+start_time = time.time()
+
 for file in os.listdir(c_root):
     if "txtoriginal.txt" in file:
         fp = open(c_root + file, 'r', encoding='utf8')
@@ -41,16 +68,9 @@ for file in os.listdir(c_root):
             # key: word； value： part of speech
             for key, value in words:
                 if value.strip() and key.strip():
-                    import time
-                    start_time = time.time()
-
                     # index值用于划分dev、train、test
                     index = str(1) if split_num % 15 < 2 else str(2) \
                         if split_num % 15 > 1 and split_num % 15 < 4 else str(3)
-
-                    end_time = time.time()
-                    print(("method one used time is {}".format(end_time -
-                                                               start_time)))
                     if value.strip() not in biaoji:
                         value = 'O'
                         # 按字标记
@@ -96,6 +116,20 @@ for file in os.listdir(c_root):
                     else:
                         continue
 
-dev.close()
-train.close()
-test.close()
+# 处理后文件储存格式为：
+# 患 O
+# 者 O
+# 以 O
+# 腰 O
+# 痛 O
+# 伴 O
+# 双 B-REG
+# 下 I-REG
+# 肢 I-REG
+# 疼 B-SYM
+# 痛 I-SYM
+# 半 O
+# 年 O
+
+end_time = time.time()
+print(("IOB tagging used time is {} s. \n".format(end_time - start_time)))
